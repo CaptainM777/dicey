@@ -1,2 +1,3 @@
 config_files/bots.json
 db/data.db
+db/schema.rb
