@@ -1,0 +1,87 @@
+# ███████████████████████████████████████████████████████████████████████████████████████████
+# █ Main configuration file for the bot. The 'bot_token' and 'prefix' fields will be pulled █
+# █ from the 'bots.json' file at startup and added to the hash that this file will be       █
+# █ converted into. Only the fields that are marked as █ REQUIRED █ need to be filled out.  █
+# █                                                                                         █
+# █ IMPORTANT: Make sure that you read the 'README.md' in this folder before doing anything █
+# █ here.                                                                                   █
+# ███████████████████████████████████████████████████████████████████████████████████████████
+
+---
+
+# ==================================================
+# Main: This section contains basic info for the bot.
+# ==================================================
+
+# █ REQUIRED █ 
+# Put the bot that you want to use here. The value that you put here should have a matching
+# bot name in the 'bots.json' file.
+# Accepted Values: Any valid string.
+bot:
+
+# Put the type of account this bot is here (either user or bot account).
+# Accepted Values: user or bot (case sensitive); anything else defaults to bot.
+type: bot
+
+# Put the name of your bot here, to be sent to Discord upon making any API requests and used
+# by them to trace the source of excessive API requests.
+# Accepted Values: Any valid string. Leave blank to have no name.
+name: 
+
+# Put the game to set the bot's "Playing" status to here.
+# Accepted Values: Any valid string. Leave blank to have no game.
+game:
+
+# Put whether the bot should react to its own messages.
+# Accepted Values: true or false (case sensitive); anything else defaults to false.
+parse_self: false
+
+# Put whether the bot should ignore other bots.
+# Accepted Values: true or false (case sensitive); anything else defaults to false.
+ignore_bots: false
+
+# Put the message to be displayed when the user tries to use a nonexistent command here.
+# You can put the string '%command%' within the message to replace it with the command
+# the user attempted to use automatically (i.e. 'Command %command% does not exist' will be
+# replaced with 'Command foomy does not exist.')
+# Accepted Values: Any valid string. Leave blank to disable (remove from config hash in bot.rb).
+command_doesnt_exist_message:
+
+# Put whether spaces should be allowed between the prefix and the command name.
+# Accepted Values: true or false (case sensitive); anything else defaults to no.
+spaces_allowed: false
+
+# Put the IDs of channels the bot should react to within the brackets, separated by commas.
+# Accepted Values: Any valid integers in the array. Leave empty to allow the bot to accept 
+# commands in all channels.
+channels: []
+
+
+# ==============================================================================
+# Logging: This section contains options concerning how the bot logs to console.
+# ==============================================================================
+
+# Put the bot's logging mode here.
+# Accepted are: (case sensitive)
+# debug: logs everything
+# verbose: logs everything except for debug messages
+# normal: logs useful information, warnings and errors
+# quiet: only logs warnings and errors
+# silent: logs nothing
+# Anything else defaults to normal.
+log_mode: normal
+
+# Put whether the log should be fancy and use ANSI escape codes here. 
+# Not all terminals support this.
+# Accepted Values: true or false (case sensitive); anything else defaults to false.
+fancy_log: false
+
+# Put whether the READY packet should be exempt from printing to the console.
+# Accepted Values: true or false (case sensitive); anything else defaults to false.
+suppress_ready: false
+
+# Put whether the bot's token should be printed in logs.
+# Accepted Values: true or false (case sensitive); anything else defaults to true.
+redact_token: true
+
+...
