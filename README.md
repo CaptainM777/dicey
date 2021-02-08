@@ -1,4 +1,4 @@
-# Thunder: A Bot for the Tales of Xadia Server
+# Thunder: A Bot for the Tales of Xadia Discord Server
 
 This bot uses [Geode V2](https://github.com/CaptainM777/geode).
 
