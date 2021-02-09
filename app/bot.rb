@@ -88,8 +88,13 @@ module Bot
 
   puts 'Loading additional scripts in lib directory...'
 
+  # Loads the constants file first so files in the lib directory can use it
+  require './lib/constants.rb'
+  puts "+ Loaded file lib/constants.rb"
+
   # Loads files from lib directory in parent
   Dir['./lib/**/*.rb'].sort.each do |path|
+    next if path == "./lib/constants.rb"
     require path
     puts "+ Loaded file #{path[2..-1]}"
   end
