@@ -1,4 +1,5 @@
-# Crystal: VoiceChats - Write what the crystal does here.
+# Crystal: VoiceChats - Shows a hidden text channel to the user if they join that text channel's corresponding VC,
+# and removes access once they leave VC.
 module Bot::VoiceChats
   extend Discordrb::Commands::CommandContainer
   extend Discordrb::EventContainer
