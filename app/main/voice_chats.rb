@@ -6,7 +6,8 @@ module Bot::VoiceChats
 
   # Voice => Text
   channels = { 
-    807690259847577681 => 807695138335621151 # voice
+    807690259847577681 => 807695138335621151, # voice (ToX server)
+    687076761632112700 => 687076782687387649 # General (personal server)
   }
   
   voice_state_update do |event|
