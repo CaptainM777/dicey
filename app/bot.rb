@@ -50,6 +50,9 @@ module Bot
     send_error_message("The bot name given in 'config.yml' is not in the 'bots.json' file")
   end
 
+  # Used in 'constants.rb' to resolve server-specific constants
+  ENV['BOT_NAME'] = config[:bot].downcase
+
   puts "Done."
 
   # Deletes the 'bot' and 'game' keys so it doesn't get parsed by the CommandBot
