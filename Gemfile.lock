@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/shardlab/discordrb.git
-  revision: 75d3e6a8fd2cda78a1e3c8e4585b33372b5800e4
-  branch: main
+  revision: 57599e838fc1583e709088f3f06c9f7fdfb99cc9
+  tag: v3.4.2
   specs:
     discordrb (3.4.2)
       discordrb-webhooks (~> 3.4.2)
@@ -30,7 +30,7 @@ GEM
       domain_name (~> 0.5)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.1104)
+    mime-types-data (3.2021.0212)
     netrc (0.11.0)
     opus-ruby (1.0.1)
       ffi
