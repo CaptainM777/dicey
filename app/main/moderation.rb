@@ -22,7 +22,7 @@ module Bot::Moderation
         name: "WARNING | #{user.name} (#{user.distinct})",
         icon_url: user.avatar_url
       }
-      embed.description = "**⚠ #{user.mention} was given a warning by #{event.user.mention}**"
+      embed.description = "**⚠ #{user.mention} was given a warning by #{event.user.mention} (#{event.user.distinct})**"
       embed.add_field(name: "Reason", value: reason.join(" "))
       embed.footer = { 
         text: "User ID: #{user.id} | Staff ID: #{event.user.id} • #{Time.new.utc.strftime("%Y-%m-%d at %l:%M %p")}" 
