@@ -18,4 +18,19 @@ information:
   id:
     mod_command?: true
     overview: "•`?id` - Provides a link that gives information on how to get a server, user, or message ID."
+
+# For the warn command, add in what happens when the bot tries to DM a user that's not on the server
+moderation:
+  warn:
+    mod_command?: true
+    overview: "•`-warn <user> <reason>` - Warns a user."
+    description: >
+      •`-warn <user> <reason>`
+      
+      When this command is used, the bot will send a DM to the user telling them
+      that they were warned, and the reason for it.
+
+
+      This command accepts user ID's and user mentions.
+
     

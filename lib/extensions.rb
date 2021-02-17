@@ -45,4 +45,9 @@ class Discordrb::Bot
     # Argument is a channel mention
     return parse_mention(channel) if channel =~ /<#\d+>/
   end
+
+  def get_user(user)
+    return parse_mention(user) if user =~ /<@\d+>/
+    user(user)
+  end
 end
