@@ -23,9 +23,9 @@ information:
 moderation:
   warn:
     mod_command?: true
-    overview: "•`-warn <user> <reason>` - Warns a user."
+    overview: "•`?warn <user> <reason>` - Warns a user."
     description: >
-      •`-warn <user> <reason>`
+      •`?warn <user> <reason>`
       
       When this command is used, the bot will send a DM to the user telling them
       that they were warned, and the reason for it.
