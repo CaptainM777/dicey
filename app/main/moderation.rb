@@ -20,7 +20,7 @@ module Bot::Moderation
     MOD_LOG.send_embed do |embed|
       embed.author = {
         name: "WARNING | #{user.name} (#{user.distinct})",
-        icon_url: event.server.icon_url
+        icon_url: user.avatar_url
       }
       embed.description = "**⚠ #{user.mention} was given a warning by #{event.user.mention}**"
       embed.add_field(name: "Reason", value: reason.join(" "))
