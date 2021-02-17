@@ -19,7 +19,7 @@ module Bot::Moderation
     user.dm("**⚠ You've received a warning from the server staff.**\n**Reason:** #{reason.join(" ")}")
     MOD_LOG.send_embed do |embed|
       embed.author = {
-        name: "WARNING",
+        name: "WARNING | #{user.name} (#{user.distinct})",
         icon_url: event.server.icon_url
       }
       embed.description = "**⚠ #{user.mention} was given a warning by #{event.user.mention}**"
