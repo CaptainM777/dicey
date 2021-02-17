@@ -58,7 +58,7 @@ module Bot::Help
         event.send_embed do |embed|
           embed.title = "Help: -#{type}"
           embed.description = command[type]["description"]
-          embed.footer = specific_command_footer
+          embed.footer = { text: specific_command_footer }
           embed.color = 0xFFD700
         end
         break
