@@ -57,7 +57,7 @@ module Bot::Moderation
       embed.add_field(name: "Reason", value: reason.join(" "))
       embed.add_field(name: "Additional Information", value: "A DM couldn't be sent to this user.") unless dm_sent
       embed.footer = { 
-        text: "User ID: #{user.id} | Staff ID: #{event.user.id} • #{Time.new.utc.strftime("%Y-%m-%d at %l:%M %p")}" 
+        text: "User ID: #{user.id} | Staff ID: #{event.user.id} • #{Time.new.utc.strftime("%Y-%m-%d at %l:%M %p UTC")}" 
       }
       embed.color = 0xFFD700
     end
