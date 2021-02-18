@@ -17,4 +17,5 @@ module Constants
   CAP_ID = 260600155630338048
   DB = Bot::DB
   SCHEDULER = Rufus::Scheduler.new
+  HELP_COMMAND ||= YAML.load_file 'help.yml'
 end

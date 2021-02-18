@@ -2,14 +2,13 @@
 module Bot::Help
   extend Discordrb::Commands::CommandContainer
   extend Discordrb::EventContainer
+  include Constants
   
-  help_command = YAML.load_file 'help.yml'
+  master_list_description = HELP_COMMAND["master-list-description"]
+  specific_command_footer = HELP_COMMAND["specific-command-footer"]
 
-  master_list_description = help_command["master-list-description"]
-  specific_command_footer = help_command["specific-command-footer"]
-
-  help_command.delete("master-list-description")
-  help_command.delete("specific-command-footer")
+  HELP_COMMAND.delete("master-list-description")
+  HELP_COMMAND.delete("specific-command-footer")
 
   def self.has_one_user_command?(commands_hash)
     commands_hash.each_value do |info|
@@ -23,7 +22,7 @@ module Bot::Help
 
     if type == "master"
       fields = []
-      help_command.each do |category, commands|
+      HELP_COMMAND.each do |category, commands|
         category = "**#{category.split("-").map!(&:capitalize).join(" ")}**"
         field = { name: "", value: [] }
 
@@ -52,7 +51,7 @@ module Bot::Help
       end
     else
       type = type.downcase
-      help_command.each_value do |commands|
+      HELP_COMMAND.each_value do |commands|
         command = commands.select{ |command, info| command == type }
         next if command.empty? || (!event.user.has_permission?(:mod) && command[type]["mod_command?"]) || !command[type].member?("description")
         event.send_embed do |embed|

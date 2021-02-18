@@ -23,6 +23,7 @@ information:
 moderation:
   warn:
     mod_command?: true
+    usage: "?warn <user> <reason> | <user> can be a user ID or user mention | <reason> can be any text"
     overview: "•`?warn <user> <reason>` - Warns a user."
     description: >
       •`?warn <user> <reason>`

@@ -11,11 +11,12 @@ module Bot::Moderation
 
   def self.valid_user?(user, channel)
     return Bot::BOT.get_user(user) if Bot::BOT.get_user(user)
-    channel.send_temporary_message("**The user you provided is invalid! Make sure you give a valid user ID or user mention.**", 15)
+    channel.send_temporary_message("**The user you provided is invalid! Make sure you give a valid user ID or user mention.**", 10)
   end
   
-  command :warn, allowed_roles: STAFF_ROLES do |event, user="", *reason|
-    break unless (user = valid_user?(user, event.channel)) && !reason.empty?
+  command :warn, allowed_roles: STAFF_ROLES, 
+          min_args: 2, usage: HELP_COMMAND["moderation"]["warn"]["usage"] do |event, user, *reason|
+    break unless (user = valid_user?(user, event.channel))
     dm_sent = false
     begin
       user.dm("**⚠ You've received a warning from the server staff.**\n**Reason:** #{reason.join(" ")}")
