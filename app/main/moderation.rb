@@ -57,30 +57,6 @@ module Bot::Moderation
       return dhms[0] if dhms.size == 1
       "#{dhms[0..-2].join(', ')} and #{dhms[-1]}"
     end
-
-    def unmute_embed(user, reason, length)
-      Discordrb::Webhooks::Embed.new(
-        author: {
-          name: "UNMUTE | #{user.distinct}",
-          icon_url: user.avatar_url
-        },
-        description: "**#{user.mention} was unmuted.**",
-        fields: [
-          {
-            name: "Mute Length",
-            value: time_string(length)
-          },
-          {
-            name: "Reason for Mute",
-            value: reason.join(" ")
-          }
-        ],
-        footer: { 
-          text: "User ID: #{user.id} | #{Time.new.utc.strftime("%Y-%m-%d at %l:%M %p UTC")}" 
-        },
-        color: 0xFFD700
-      )
-    end
   end
    
   command :warn, allowed_roles: STAFF_ROLES, 
