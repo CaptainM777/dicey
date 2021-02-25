@@ -39,6 +39,7 @@ class Discordrb::Message
 end
 
 class Discordrb::Bot
+  include Constants
   def get_channel(channel)
     # Argument is a channel ID
     return channel(channel.resolve_id) rescue nil if channel.resolve_id != 0
@@ -46,8 +47,8 @@ class Discordrb::Bot
     return parse_mention(channel) if channel =~ /<#\d+>/
   end
 
-  def get_user(user)
-    return parse_mention(user) if user =~ /<@\d+>/
-    user(user)
+  def get_member(member)
+    parsed_member = parse_mention(member)
+    member(SERVER_ID, parsed_member&.id || member)
   end
 end

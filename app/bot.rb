@@ -71,10 +71,18 @@ module Bot
 
   puts 'Done.'
 
-  puts 'Loading application data (database, models, etc.)...'
-
   # Database constant
   DB = Sequel.sqlite(ENV['DB_PATH'])
+
+  puts 'Loading bot constants...'
+
+  # Loads the constants file first so files in the models and lib directory can use it
+  require './lib/constants.rb'
+  puts "+ Loaded file lib/constants.rb"
+
+  puts 'Done.'
+
+  puts 'Loading application data (database, models, etc.)...'
 
   # Load model classes and print to console
   Models = Module.new
@@ -90,10 +98,6 @@ module Bot
   puts 'Done.'
 
   puts 'Loading additional scripts in lib directory...'
-
-  # Loads the constants file first so files in the lib directory can use it
-  require './lib/constants.rb'
-  puts "+ Loaded file lib/constants.rb"
 
   # Loads files from lib directory in parent
   Dir['./lib/**/*.rb'].sort.each do |path|

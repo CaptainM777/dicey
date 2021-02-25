@@ -4,6 +4,11 @@ require 'sequel'
 
 module Schema
   Sequel.sqlite(ENV['DB_PATH']) do |db|
-    # Schema is initially empty
+    db.create_table?(:muted_users) do
+      primary_key :user_id
+      DateTime :mute_start, :null=>false
+      DateTime :mute_end, :null=>false
+      String :reason, :size=>255
+    end
   end
 end

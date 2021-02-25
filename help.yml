@@ -34,4 +34,8 @@ moderation:
 
       This command accepts user ID's and user mentions.
 
+  mute:
+    mod_command?: true
+    usage: "Placeholder"
+
     
