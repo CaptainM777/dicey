@@ -56,16 +56,6 @@ module Bot::Moderation
       "#{dhms[0..-2].join(', ')} and #{dhms[-1]}"
     end
   end
-
-  command :test do |event|
-    f = {
-      title: "Here, There, and Everywhere",
-      description: "Nope",
-      footer: { text: "Yep" }
-    }
-    g = Discordrb::Webhooks::Embed.new(f)
-    puts g
-  end
    
   command :warn, allowed_roles: STAFF_ROLES, 
           min_args: 2, usage: moderation_commands["warn"]["usage"] do |event, user, *reason|
