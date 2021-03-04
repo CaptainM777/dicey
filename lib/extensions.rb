@@ -52,3 +52,11 @@ class Discordrb::Bot
     member(SERVER_ID, parsed_member&.id || member)
   end
 end
+
+class Rufus::Scheduler
+  def end_job(job_id)
+    job = job(job_id)
+    job.unschedule
+    job.kill
+  end
+end

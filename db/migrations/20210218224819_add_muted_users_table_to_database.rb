@@ -3,8 +3,9 @@ Sequel.migration do
   change do
     create_table(:muted_users) do
       Integer :user_id, primary_key: true
-      Time :mute_start, null: false
-      Time :mute_end, null: false
+      String :job_id, default: nil
+      Time :mute_start, default: nil 
+      Time :mute_end, default: nil
       String :reason
     end
   end

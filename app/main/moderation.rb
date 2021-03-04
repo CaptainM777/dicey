@@ -34,15 +34,13 @@ module Bot::Moderation
     # a number of seconds.
     # @param  [String]  str the string to parse into a number of seconds
     # @return [Integer]     the number of seconds the given string is equal to, or 0 if it cannot be parsed properly
-    def parse_time(str, channel)
+    def parse_time(str)
       seconds = 0
       str.scan(/\d+ *[Dd]/).each { |m| seconds += (m.to_i * 24 * 60 * 60) }
       str.scan(/\d+ *[Hh]/).each { |m| seconds += (m.to_i * 60 * 60) }
       str.scan(/\d+ *[Mm]/).each { |m| seconds += (m.to_i * 60) }
       str.scan(/\d+ *[Ss]/).each { |m| seconds += (m.to_i) }
-      return seconds if seconds != 0
-      channel.send_temporary_message("**The length you provided is invalid! Make sure you give a valid time length, like 3h (3 hours) or 5d (5 days).**", 10)
-      nil
+      seconds
     end
 
     # Takes the given number of seconds and converts into a string that describes its length (i.e. 3 hours,
@@ -58,6 +56,16 @@ module Bot::Moderation
       "#{dhms[0..-2].join(', ')} and #{dhms[-1]}"
     end
   end
+
+  command :test do |event|
+    f = {
+      title: "Here, There, and Everywhere",
+      description: "Nope",
+      footer: { text: "Yep" }
+    }
+    g = Discordrb::Webhooks::Embed.new(f)
+    puts g
+  end
    
   command :warn, allowed_roles: STAFF_ROLES, 
           min_args: 2, usage: moderation_commands["warn"]["usage"] do |event, user, *reason|
@@ -67,37 +75,71 @@ module Bot::Moderation
       event << "A DM couldn't be sent to this user because they either have DM's turned off for this server or have the bot blocked. " + 
                "A warning will still be logged to the mod log channel."
     end
-    ModerationLogger.set_context(user, event.user, reason, dm_sent)
+    ModerationLogger.set_context(user, reason, mod: event.user, dm_sent: dm_sent)
     ModerationLogger.log_warning(user.id)
-    event << "**Warned #{user.distinct}.**" if dm_sent
+    event << "**Warned #{user.distinct}.**"
   end
 
-  command :mute, allowed_roles: STAFF_ROLES,
-          min_args: 3, usage: moderation_commands["mute"]["usage"] do |event, user, length, *reason|
-    break unless (user = valid_user?(user, event.channel)) && (length = parse_time(length, event.channel))
-    dm_sent = send_dm(user, "**🔇 You've been muted for #{time_string(length)}.**\n**Reason:** #{reason.join(" ")}")
+  command :mute, allowed_roles: STAFF_ROLES, min_args: 2,
+          usage: moderation_commands["mute"]["usage"] do |event, *args|
+    break unless (user = valid_user?(args[0], event.channel))
+    length = parse_time(args[1])
+    reason = length == 0 ? args[1..-1].join(" ") : args[2..-1].join(" ")
+
+    if reason.empty?
+      event.send_temporary_message("**You are missing a mute reason!**", 10)
+      break
+    end
+
+    dm_sent = send_dm(user, "**🔇 You've been muted for #{length == 0 ? "an indefinite amount of time" : time_string(length)}.**\n**Reason:** #{reason}")
     if !dm_sent
       event << "A DM couldn't be sent to this user because they either have DM's turned off for this server or have the bot blocked. " + 
                "The user will still be muted and this mute will be logged to the mod log channel."
     end
 
     user.add_role(muted_role_id)
-    MutedUser.create(
-      user_id: user.id, 
-      mute_start: Time.now, 
-      mute_end: Time.now + length,
-      reason: reason.join(" ")
-    )
+    if length == 0
+      MutedUser.create(user_id: user.id, reason: reason)    
+    else
+      job_id = SCHEDULER.in length do
+        user.remove_role(muted_role_id)
+        MutedUser[user.id].delete
+        ModerationLogger.log_unmute(user.id)
+      end
 
-    SCHEDULER.in length do
-      user.remove_role(muted_role_id)
-      MutedUser[user.id].delete
-      ModerationLogger.set_context(user, event.user, reason, dm_sent, length: time_string(length))
-      ModerationLogger.log_unmute(user.id)
+      MutedUser.create(
+        user_id: user.id,
+        job_id: job_id, 
+        mute_start: Time.now, 
+        mute_end: Time.now + length,
+        reason: reason
+      )
     end
 
-    ModerationLogger.set_context(user, event.user, reason, dm_sent, length: time_string(length))
+    ModerationLogger.set_context(user, reason, mod: event.user, dm_sent: dm_sent, 
+                                 length: length == 0 ? "Indefinite" : time_string(length))
     ModerationLogger.log_mute(user.id)
-    event << "**Muted #{user.distinct}.**" if dm_sent
+    event << "**Muted #{user.distinct}.**"
+  end
+
+  command :unmute, allowed_roles: STAFF_ROLES, min_args: 1,
+          usage: moderation_commands["unmute"]["usage"] do |event, user|
+    break unless (user = valid_user?(user, event.channel))
+    muted_user = MutedUser[user.id]
+    if !muted_user
+      event.send_temporary_message("**The user you're trying to unmute isn't currently muted!**", 10)
+      break
+    end
+
+    dm_sent = send_dm(user, "**You have been unmuted by a staff member.**")
+    if !dm_sent
+      event << "A DM couldn't be sent to this user because they either have DM's turned off for this server or have the bot blocked."
+    end
+
+    user.remove_role(muted_role_id)
+    SCHEDULER.end_job(muted_user.job_id) if muted_user.job_id
+    ModerationLogger.log_unmute(muted_user.user_id, moderator=event.user)
+    muted_user.delete
+    event << "**#{user.distinct} has been unmuted.**"
   end
 end

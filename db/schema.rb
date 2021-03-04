@@ -6,8 +6,9 @@ module Schema
   Sequel.sqlite(ENV['DB_PATH']) do |db|
     db.create_table?(:muted_users) do
       primary_key :user_id
-      DateTime :mute_start, :null=>false
-      DateTime :mute_end, :null=>false
+      String :job_id, :size=>255
+      DateTime :mute_start
+      DateTime :mute_end
       String :reason, :size=>255
     end
   end
