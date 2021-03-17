@@ -89,7 +89,7 @@ module ModerationLogger
       embed.footer = {
         text: footer_text
       }
-      embed.color = EMBED_COLOR
+      embed.color = "#FF0000"
     end
 
     CONTEXT_INFORMATION.delete(user_id)

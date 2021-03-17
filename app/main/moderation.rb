@@ -132,4 +132,27 @@ module Bot::Moderation
     muted_user.delete
     event << "**#{user.distinct} has been unmuted.**"
   end
+
+  command :getmute, allowed_roles: STAFF_ROLES, min_args: 1,
+          usage: moderation_commands["getmute"]["usage"] do |event, user|
+    break unless (user = valid_user?(user, event.channel))
+    muted_user = MutedUser[user.id]
+    if !muted_user
+      event.send_temporary_message("**This user is not currently muted!**", 10)
+      break
+    end
+
+    event.channel.send_embed do |embed|
+      embed.author = {
+        name: user.distinct,
+        icon_url: user.avatar_url
+      }
+      embed.add_field(name: "Reason", value: muted_user.reason)
+      embed.add_field(name: "Length", value: time_string(muted_user.mute_length.to_i))
+      embed.add_field(name: "Time Left", value: time_string(muted_user.time_left.to_i))
+      embed.footer = {
+        text: "User ID: #{muted_user.user_id} | #{Time.new.utc.strftime("%Y-%m-%d at %l:%M %p UTC")}"
+      }
+    end
+  end
 end

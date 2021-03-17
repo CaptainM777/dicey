@@ -5,4 +5,8 @@ class Bot::Models::MutedUser < Sequel::Model
   def time_left
     mute_end - Time.now
   end
+
+  def mute_length 
+    mute_end - mute_start
+  end
 end

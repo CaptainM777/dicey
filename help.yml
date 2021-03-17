@@ -53,7 +53,20 @@ moderation:
       When this command is used, a DM will be sent to the user saying that they have been unmuted and the muted
       role will be removed. If the original mute was a timed mute, the timer will be stopped.
 
-      
+
+      This command accepts user ID's and user mentions as the "user" argument.
+
+  getmute:
+    mod_command?: true
+    usage: "?getmute <user> | Use ?help getmute for more details on how to use this command."
+    overview: "•`?getmute <user>` - Shows details about a user's mute."
+    description: >
+      •`?getmute <user>`
+
+      When this command is used, the following details about that user's mute will be shown: the mute reason,
+      the mute length, and the time left.
+
+
       This command accepts user ID's and user mentions as the "user" argument.
 
 fun:
