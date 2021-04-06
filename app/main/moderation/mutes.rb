@@ -112,14 +112,4 @@ module Bot::Moderation::Mutes
       event << "**There is a job scheduled for #{user.mention}.**"
     end
   end
-
-  command :endjob do |event, user|
-    break unless (user = valid_user?(user, event.channel)) && event.user.has_permission?(:cap)
-    muted_user = MutedUser[user.id]
-    if muted_user.nil?
-      event << "**This user is not currently muted.**"
-      break
-    end
-    SCHEDULER.end_job(muted_user.job_id)
-  end
 end
