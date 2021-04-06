@@ -110,6 +110,7 @@ module Bot
 
   # Load all crystals, preloading their modules if they are nested within subfolders
   ENV['CRYSTALS_TO_LOAD'].split(',').each do |path|
+    next if path.end_with?('utilities.rb')
     crystal_name = path.camelize.split('::')[2..-1].join('::').sub('.rb', '')
     parent_module = crystal_name.split('::')[0..-2].reduce(self) do |memo, name|
       if memo.const_defined? name

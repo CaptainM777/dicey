@@ -11,6 +11,7 @@ module Constants
   ADMIN_ROLE_ID ||= determine_id(807691115049648158, 665696338536824848)
   MOD_ROLE_ID ||= determine_id(807694130448302080, 665696287772901416)
   STAFF_ROLES ||= [ADMIN_ROLE_ID, MOD_ROLE_ID]
+  MUTED_ROLE_ID ||= determine_id(808009631451709510, 668616677306531870)
 
   # Channels
   MOD_LOG_ID ||= determine_id(808921994540089385, 651969052155183128)
@@ -22,4 +23,5 @@ module Constants
   SCHEDULER = Rufus::Scheduler.new
   HELP_COMMAND ||= YAML.load_file 'help.yml'
   SCHEDULER ||= Rufus::Scheduler.new
+  MODERATION_COMMANDS = HELP_COMMAND["moderation"]
 end
