@@ -1,4 +1,4 @@
-# Crystal: Mutes - Write what the crystal does here.
+# Crystal: Moderation::Mutes - Contains all commands and functionalities related to mutes.
 
 require 'rufus-scheduler'
 require_relative 'utilities.rb'

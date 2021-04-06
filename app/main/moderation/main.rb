@@ -1,4 +1,4 @@
-# Crystal: Moderation - Write what the crystal does here.
+# Crystal: Moderation::Main - The main file for moderation commands and functionalities.
 
 require_relative 'utilities.rb'
 
